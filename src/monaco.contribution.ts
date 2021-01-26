@@ -177,16 +177,19 @@ const modeConfigurationDefault: Required<ModeConfiguration> = {
 };
 
 export const jsonDefaults: LanguageServiceDefaults = new LanguageServiceDefaultsImpl(
-	'json',
+	'spformatter',
 	diagnosticDefault,
 	modeConfigurationDefault
 );
 
+export { setupMode } from './jsonMode';
+
 // export to the global based API
-(<any>languages).json = { jsonDefaults };
+//(<any>languages).spformatter = { jsonDefaults };
 
 // --- Registration to monaco editor ---
 
+/*
 function getMode(): Promise<typeof mode> {
 	return import('./jsonMode');
 }
@@ -201,3 +204,5 @@ languages.register({
 languages.onLanguage('json', () => {
 	getMode().then((mode) => mode.setupMode(jsonDefaults));
 });
+
+*/

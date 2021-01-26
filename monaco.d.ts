@@ -97,4 +97,5 @@ declare namespace monaco.languages.json {
 		setModeConfiguration(modeConfiguration: ModeConfiguration): void;
 	}
 	export const jsonDefaults: LanguageServiceDefaults;
+	export { setupMode } from './jsonMode';
 }

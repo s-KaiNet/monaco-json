@@ -18,7 +18,7 @@ export function setupMode(defaults: LanguageServiceDefaults): IDisposable {
 	disposables.push(client);
 
 	const worker: languageFeatures.WorkerAccessor = (...uris: Uri[]): Promise<JSONWorker> => {
-		return client.getLanguageServiceWorker(...uris);
+		return Promise.resolve(client.getLanguageServiceWorker(...uris));
 	};
 
 	function registerProviders(): void {

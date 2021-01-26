@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import { LanguageServiceDefaults } from './monaco.contribution';
-import type { JSONWorker } from './jsonWorker';
+import { JSONWorker, create } from './jsonWorker';
 import { IDisposable, Uri, editor } from './fillers/monaco-editor-core';
 
 const STOP_WHEN_IDLE_FOR = 2 * 60 * 1000; // 2min
@@ -74,15 +74,22 @@ export class WorkerManager {
 		return this._client;
 	}
 
-	getLanguageServiceWorker(...resources: Uri[]): Promise<JSONWorker> {
-		let _client: JSONWorker;
-		return this._getClient()
-			.then((client) => {
-				_client = client;
-			})
-			.then((_) => {
-				return this._worker.withSyncedResources(resources);
-			})
-			.then((_) => _client);
+	getLanguageServiceWorker(...resources: Uri[]): JSONWorker {
+		return create(null, {
+			languageSettings: this._defaults.diagnosticsOptions,
+			languageId: this._defaults.languageId,
+			enableSchemaRequest: this._defaults.diagnosticsOptions.enableSchemaRequest
+		});
+		/*
+    let _client: JSONWorker;
+    return this._getClient()
+    .then((client) => {
+      _client = client;
+    })
+    .then((_) => {
+      return this._worker.withSyncedResources(resources);
+    })
+    .then((_) => _client);
+    } */
 	}
 }

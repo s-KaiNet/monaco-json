@@ -4,7 +4,7 @@
  *--------------------------------------------------------------------------------------------*/
 
 import * as jsonService from 'vscode-json-languageservice';
-import type { worker } from './fillers/monaco-editor-core';
+import { editor, worker } from './fillers/monaco-editor-core';
 import { URI } from 'vscode-uri';
 import { DiagnosticsOptions } from './monaco.contribution';
 
@@ -118,15 +118,11 @@ export class JSONWorker {
 		return Promise.resolve(ranges);
 	}
 	private _getTextDocument(uri: string): jsonService.TextDocument {
-		let models = this._ctx.getMirrorModels();
+		//let models = this._ctx.getMirrorModels();
+		let models = editor.getModels();
 		for (let model of models) {
 			if (model.uri.toString() === uri) {
-				return jsonService.TextDocument.create(
-					uri,
-					this._languageId,
-					model.version,
-					model.getValue()
-				);
+				return jsonService.TextDocument.create(uri, this._languageId, 1, model.getValue());
 			}
 		}
 		return null;
